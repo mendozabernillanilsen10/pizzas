@@ -1,0 +1,26 @@
+{% extends "maestra.html" %}
+{% block titulo %}
+Agregar Cliente
+{% endblock %}
+{% block contenido %}
+<section class="section">
+    <div class="columns">
+        <div class="column is-one-third">
+            <h3 class="is-size-3">Agregar Cliente</h3>
+            <form action="{{ url_for('api_guardar_clienteplantilla') }}" method="post">
+                <label for="nombre">Nombre:</label>
+                <input required type="text" class="input" placeholder="Nombre" name="nombre" id="nombre">
+                <label for="apellido">Apellido:</label>
+                <input required type="text" class="input" placeholder="Apellido" name="apellido" id="apellido">
+                <label for="dni">DNI:</label>
+                <input required type="text" class="input" placeholder="DNI" name="dni" id="dni">
+                <label for="dni">Password:</label>
+                <input required type="password" class="input" placeholder="password" name="password" id="password">
+                <label for="lugar_procedencia">Lugar de Procedencia:</label>
+                <input required type="text" class="input" placeholder="Lugar de Procedencia" name="lugar_procedencia" id="lugar_procedencia">
+                <button type="submit" class="button is-success mt-2">Guardar Cliente</button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

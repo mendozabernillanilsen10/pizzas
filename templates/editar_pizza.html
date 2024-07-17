@@ -1,0 +1,50 @@
+{% extends "maestra.html" %} {% block titulo %} Editar Pizza {% endblock %} {% block contenido %}
+<form action="{{ url_for('editar_pizza', pizza_id=pizza.id) }}" method="POST" enctype="multipart/form-data">
+    <div class="field">
+        <label for="nombre" class="label">Nombre:</label>
+        <div class="control">
+            <input class="input" type="text" name="nombre" value="{{ pizza.nombre }}" placeholder="Nombre de la pizza" required>
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">Descripción:</label>
+        <div class="control">
+            <textarea class="textarea" name="descripcion" placeholder="Descripción de la pizza">{{ pizza.descripcion }}</textarea>
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">Precio:</label>
+        <div class="control">
+            <input class="input" type="number" step="0.01" min="0.01" name="precio" value="{{ pizza.precio }}" placeholder="Precio de la pizza" required>
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">Tamaño:</label>
+        <div class="control">
+            <input class="input" type="text" name="tamano" value="{{ pizza.tamano }}" placeholder="Tamaño de la pizza">
+        </div>
+    </div>
+
+    <div class="field">
+        <label for="foto" class="label">Imagen:</label>
+        <div class="control">
+            <input type="file" id="foto" name="foto">
+        </div>
+    </div>
+
+    {% if pizza.image_url %}
+    <div class="field">
+        <img src="{{ url_for('mostrar_imagen', filename=pizza.image_url) }}" alt="Imagen de la pizza" style="max-width: 100%;">
+    </div>
+    {% endif %}
+
+    <div class="field">
+        <div class="control">
+            <input type="submit" value="Actualizar Pizza" class="btn btn-success">
+        </div>
+    </div>
+</form>
+{% endblock %}

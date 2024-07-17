@@ -1,0 +1,25 @@
+{% extends "maestra.html" %}
+{% block titulo %}
+Editar Cliente
+{% endblock %}
+{% block contenido %}
+<section class="section">
+    <div class="columns">
+        <div class="column is-one-third">
+            <h3 class="is-size-3">Editar Cliente</h3>
+            <form action="{{ url_for('api_actualizar_cliente_y_redirigir', id=cliente[0]) }}" method="POST">
+                <input type="hidden" name="id" value="{{ cliente[0] }}">
+                <label for="nombre">Nombre:</label>
+                <input required type="text" class="input" placeholder="Nombre" name="nombre" id="nombre" value="{{ cliente[1] }}">
+                <label for="apellido">Apellido:</label>
+                <input required type="text" class="input" placeholder="Apellido" name="apellido" id="apellido" value="{{ cliente[2] }}">
+                <label for="dni">DNI:</label>
+                <input required type="text" class="input" placeholder="DNI" name="dni" id="dni" value="{{ cliente[3] }}">
+                <label for="lugar_procedencia">Lugar de Procedencia:</label>
+                <input required type="text" class="input" placeholder="Lugar de Procedencia" name="lugar_procedencia" id="lugar_procedencia" value="{{ cliente[4] }}">
+                <button type="submit" class="button is-success mt-2">Actualizar Cliente</button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

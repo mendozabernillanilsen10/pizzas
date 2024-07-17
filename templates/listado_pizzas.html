@@ -1,0 +1,39 @@
+{% extends "maestra.html" %} {% block titulo %} Listado de Pizzas {% endblock %} {% block contenido %}
+<h3 class="is-size-3">Listado de Pizzas <a href="{{ url_for('formulario_agregar_pizza') }}" class="button is-success is-small">Nueva Pizza</a></h3>
+
+<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>Imagen</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pizza in pizzas %}
+        <tr>
+            <td>{{ pizza.id }}</td>
+            <td>{{ pizza.name }}</td>
+            <td>{{ pizza.description }}</td>
+            <td>{{ pizza.price }}</td>
+
+            <td>
+                {% if pizza.image_url %}
+                <img src="{{ url_for('mostrar_imagen', filename=pizza.image_url) }}" alt="Imagen de {{ pizza.name }}" style="max-width: 100px; max-height: 100px;"> {% else %} No disponible {% endif %}
+            </td>
+            <td>
+                <a href="{{ url_for('editar_pizza', pizza_id=pizza.id) }}" class="button is-info is-small">Editar</a>
+                <!-- Add other actions like delete here if needed -->
+                <form action="{{ url_for('eliminar_pizza', pizza_id=pizza.id) }}" method="POST" style="display: inline;">
+                    <button type="submit" class="button is-danger is-small">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

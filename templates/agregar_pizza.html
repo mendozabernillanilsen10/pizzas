@@ -1,0 +1,51 @@
+{% extends "maestra.html" %} {% block titulo %} Agregar Nueva Pizza {% endblock %} {% block contenido %}
+<section class="section">
+    <div class="container mt-4">
+        <h3 class="is-size-3">Agregar Nueva Pizza</h3>
+
+        <form action="{{ url_for('api_guardar_pizzaplantilla') }}" method="POST" enctype="multipart/form-data">
+            <div class="field">
+                <label class="label">Nombre:</label>
+                <div class="control">
+                    <input class="input" type="text" name="nombre" placeholder="Nombre de la pizza" required>
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Descripción:</label>
+                <div class="control">
+                    <textarea class="textarea" name="descripcion" placeholder="Descripción de la pizza"></textarea>
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Precio:</label>
+                <div class="control">
+                    <input class="input" type="number" step="0.01" min="0.01" name="precio" placeholder="Precio de la pizza" required>
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Tamaño:</label>
+                <div class="control">
+                    <input class="input" type="text" name="tamano" placeholder="Tamaño de la pizza">
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Img:</label>
+                <div class="control">
+                    <input required type="file" class="input" name="foto" id="foto">
+                </div>
+            </div>
+            <br>
+
+            <div class="field">
+                <div class="control">
+                    <button class="button is-link">Agregar Pizza</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

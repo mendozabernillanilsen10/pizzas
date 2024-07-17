@@ -1,0 +1,49 @@
+{% extends "maestra.html" %}
+
+{% block titulo %}
+Clientes
+{% endblock %}
+{% block contenido %}
+<section class="section">
+    <div class="columns">
+        <div class="container mt-4">
+            <h3 class="is-size-3">Listado de Clientes <a href="{{ url_for('formulario_agregar_cliente') }}" class="button is-success is-small">Nuevo Cliente</a></h3>
+
+            <table id="myTable" class="table is-striped is-hoverable is-fullwidth">
+                <thead class="has-background-primary">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>DNI</th>
+                        <th>Lugar de Procedencia</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cliente in clientes %}
+                    <tr>
+                        <td>{{ cliente[0] }}</td>
+                        <td>{{ cliente[1] }}</td>
+                        <td>{{ cliente[2] }}</td>
+                        <td>{{ cliente[3] }}</td>
+                        <td>{{ cliente[4] }}</td>
+                        <td>
+                            
+                            <a href="{{ url_for('editar_cliente', id=cliente[0]) }}" class="button is-info">Editar</a>
+                        </td>
+                        <td>
+                            <form action="{{ url_for('api_eliminar_cliente_plantilla') }}" method="POST">
+                                <input type="hidden" name="id" value="{{ cliente[0] }}">
+                                <button class="button is-danger">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}
