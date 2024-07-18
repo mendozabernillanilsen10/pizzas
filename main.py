@@ -102,17 +102,22 @@ def api_guardar_pizzaplantilla():
         p_nombre = request.form["nombre"]
         p_descripcion = request.form["descripcion"]
         p_precio = request.form["precio"]
-        p_tamano = request.form["tamano"]
+        time = request.form["time"]
+        energy = request.form["energy"]
+        score = request.form["score"]
+
         foto = request.files.get("foto")
         if foto:
-            # Generar un nombre único para el archivo
+            # Guardar la foto
             nombre_archivo = secure_filename(foto.filename)
             ruta_guardado = os.path.join(app.config["UPLOAD_FOLDER"], nombre_archivo)
             foto.save(ruta_guardado)
         else:
             nombre_archivo = "default.png"
 
-        PizzaController.insertar_pizza(p_nombre, p_descripcion, p_precio, p_tamano, nombre_archivo)
+        # Insertar la pizza en la base de datos
+        PizzaController.insertar_pizza(p_nombre, p_descripcion, p_precio, time, nombre_archivo, energy, score)
+
         return redirect(url_for("listado_pizzas"))
     except Exception as e:
         return jsonify({"Estado": False, "Mensaje": str(e)})
@@ -120,22 +125,26 @@ def api_guardar_pizzaplantilla():
 
 
 
-
 @app.route("/listado_pizzasApi", methods=["GET"])
 @jwt_required()
 def listado_pizzas_api():
-    pizzas = PizzaController.obtener_pizzas()
+    pizzas = PizzaController.listar_pizzas()
     
     # Crear una lista para almacenar las pizzas con el formato deseado
     pizzas_list = []
-    
+
     for pizza in pizzas:
         # Construir un diccionario con los datos deseados para cada pizza
         pizza_dict = {
             "id": pizza["id"],
             "nombre": pizza["name"],
             "descripcion": pizza["description"],
+            "time": pizza["time"],
             "precio": pizza["price"],
+            "energy": pizza["energy"],
+            "score": pizza["score"],
+
+            
             "imagen_url": f"{request.url_root}imagen/{pizza['image_url']}"  # URL completa de la imagen
         }
         
@@ -309,4 +318,4 @@ def api_guardar_cliente():
 
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=8000, debug=True)  # Cambia el puerto según necesites
+    app.run(host='192.168.1.7', port=8000, debug=True)  # Cambia el puerto según necesites

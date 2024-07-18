@@ -2,23 +2,31 @@
 
 from bd import obtener_conexion
 
-class PizzaController:
+
+class PizzaController:    
     @classmethod
-    def insertar_pizza(cls, p_nombre, p_descripcion, p_precio, p_tamano, image_url):
+    def insertar_pizza(cls, p_nombre, p_descripcion, p_precio, time, image_url, energy, score):
+        conexion = obtener_conexion()
+        try:
+            with conexion.cursor() as cursor:
+                cursor.execute(
+                    "INSERT INTO pizzas (name, description, price, time, image_url, energy, score) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                    (p_nombre, p_descripcion, p_precio, time, image_url, energy, score)
+                )
+            conexion.commit()
+        except Exception as e:
+            conexion.rollback()
+            raise e
+        finally:
+            conexion.close()
+
+    @classmethod
+    def listar_pizzas(cls):
         conexion = obtener_conexion()
         with conexion.cursor() as cursor:
-            cursor.execute(
-                "INSERT INTO pizzas (name, description, price, image_url) VALUES (%s, %s, %s, %s)",
-                (p_nombre, p_descripcion, p_precio, image_url)
-            )
-        conexion.commit()
-        conexion.close()
-    @classmethod
-    def obtener_pizzas(cls):
-        conexion = obtener_conexion()
-        with conexion.cursor() as cursor:
-            cursor.execute("SELECT id, name, description, price, image_url FROM pizzas")
+            cursor.execute("SELECT id, name, description, price, time, image_url, energy, score FROM pizzas")
             result = cursor.fetchall()
+        
         conexion.close()
         
         pizzas = [
@@ -27,7 +35,10 @@ class PizzaController:
                 "name": row[1],
                 "description": row[2],
                 "price": row[3],
-                "image_url": row[4]
+                "time": row[4],
+                "image_url": row[5],
+                "energy": row[6],
+                "score": row[7]
             }
             for row in result
         ]
